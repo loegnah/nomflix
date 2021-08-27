@@ -2,26 +2,26 @@ import React from "react";
 import DetailPresenter from "./DetailPresenter";
 import { moviesApi, tvApi } from "../../api";
 
-export default class extends React.Component {
+export default class DetailContainer extends React.Component {
   constructor(props) {
     super(props);
     const {
-      location: { pathname }
+      location: { pathname },
     } = props;
     this.state = {
       result: null,
       error: null,
       loading: true,
-      isMovie: pathname.includes("/movie/")
+      isMovie: pathname.includes("/movie/"),
     };
   }
 
   async componentDidMount() {
     const {
       match: {
-        params: { id }
+        params: { id },
       },
-      history: { push }
+      history: { push },
     } = this.props;
     const { isMovie } = this.state;
     const parsedId = parseInt(id);
