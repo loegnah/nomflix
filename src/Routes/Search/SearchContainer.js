@@ -1,36 +1,36 @@
-import React from "react";
+import React, { useState } from "react";
 import SearchPresenter from "./SearchPresenter";
 import { moviesApi, tvApi } from "../../api";
 
-export default class SearchContainer extends React.Component {
-  state = {
+const SearchContainer = () => {
+  const [state, setState] = useState({
     movieResults: null,
     tvResults: null,
     searchTerm: "",
     loading: false,
     error: null,
-  };
+  });
 
-  handleSubmit = (event) => {
+  const handleSubmit = (event) => {
     event.preventDefault();
-    const { searchTerm } = this.state;
+    const { searchTerm } = state;
     if (searchTerm !== "") {
-      this.searchByTerm();
+      searchByTerm();
     }
   };
 
-  updateTerm = (event) => {
+  const updateTerm = (event) => {
     const {
       target: { value },
     } = event;
-    this.setState({
+    setState({
       searchTerm: value,
     });
   };
 
-  searchByTerm = async () => {
-    const { searchTerm } = this.state;
-    this.setState({ loading: true });
+  const searchByTerm = async () => {
+    const { searchTerm } = state;
+    setState({ loading: true });
     try {
       const {
         data: { results: movieResults },
@@ -38,29 +38,24 @@ export default class SearchContainer extends React.Component {
       const {
         data: { results: tvResults },
       } = await tvApi.search(searchTerm);
-      this.setState({
+      setState({
         movieResults,
         tvResults,
       });
     } catch {
-      this.setState({ error: "Can't find results." });
+      setState({ error: "Can't find results." });
     } finally {
-      this.setState({ loading: false });
+      setState({ loading: false });
     }
   };
 
-  render() {
-    const { movieResults, tvResults, searchTerm, loading, error } = this.state;
-    return (
-      <SearchPresenter
-        movieResults={movieResults}
-        tvResults={tvResults}
-        loading={loading}
-        error={error}
-        searchTerm={searchTerm}
-        handleSubmit={this.handleSubmit}
-        updateTerm={this.updateTerm}
-      />
-    );
-  }
-}
+  return (
+    <SearchPresenter
+      {...state}
+      handleSubmit={this.handleSubmit}
+      updateTerm={this.updateTerm}
+    />
+  );
+};
+
+export default SearchContainer;
