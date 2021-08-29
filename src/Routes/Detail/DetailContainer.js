@@ -32,6 +32,7 @@ const DetailContainer = (props) => {
       } catch {
         setError("Can't find anything.");
       } finally {
+        console.log(resultData);
         setResult(resultData);
         setLoading(false);
       }

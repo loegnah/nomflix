@@ -1,9 +1,12 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 import Helmet from "react-helmet";
 import Loader from "Components/Loader";
 import { noPosterSmall } from "assets";
+import Videos from "Components/Videos";
+import ScrollContainer from "react-indiana-drag-scroll";
 
 const Container = styled.div`
   height: calc(100vh - 50px);
@@ -69,6 +72,34 @@ const Overview = styled.p`
   width: 50%;
 `;
 
+const Imdb = styled(Link)`
+  background-color: #f5c518;
+  color: black;
+  padding: 2px 2px;
+  font-size: 10px;
+  font-weight: 700;
+`;
+
+const VideoContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  height: 170px;
+  width: 100%;
+  gap: 40px;
+  padding: 10px;
+`;
+
+const VideoContainerTitle = styled.div`
+  margin-top: 20px;
+  margin-bottom: 10px;
+  font-weight: 600;
+  font-size: 20px;
+`;
+
+const ScrollContainerBox = styled(ScrollContainer)`
+  background-color: rgba(00, 00, 00, 0.2);
+`;
+
 const DetailPresenter = ({ result, loading, error }) =>
   error ? (
     { error }
@@ -110,36 +141,69 @@ const DetailPresenter = ({ result, loading, error }) =>
           <ItemContainer>
             {(result.release_date || result.first_air_date) && (
               <>
+                <Divider>•</Divider>
                 <Item>
                   {result.release_date
                     ? result.release_date.substring(0, 4)
                     : result.first_air_date.substring(0, 4)}
                 </Item>
-                <Divider>•</Divider>
               </>
             )}
-            {console.log(result)}
             {(result.runtime ||
               (result.episode_run_time &&
                 result.episode_run_time.length > 0)) && (
               <>
+                <Divider>•</Divider>
                 <Item>
                   {result.runtime ? result.runtime : result.episode_run_time[0]}
                   {" min"}
                 </Item>
-                <Divider>•</Divider>
               </>
             )}
-            <Item>
-              {result.genres &&
-                result.genres.map((genre, index) =>
-                  index === result.genres.length - 1
-                    ? genre.name
-                    : `${genre.name} / `
-                )}
-            </Item>
+            {result.genres && (
+              <>
+                <Divider>•</Divider>
+                <Item>
+                  {result.genres.map((genre, index) =>
+                    index === result.genres.length - 1
+                      ? genre.name
+                      : `${genre.name} / `
+                  )}
+                </Item>
+              </>
+            )}
+            {result.imdb_id && (
+              <>
+                <Divider>•</Divider>
+                <Imdb
+                  to={{
+                    pathname: `https://www.imdb.com/title/${result.imdb_id}`,
+                  }}
+                  target="_blank"
+                >
+                  IMDb
+                </Imdb>
+              </>
+            )}
           </ItemContainer>
-          <Overview>{result.overview}</Overview>
+          <ItemContainer></ItemContainer>
+          {result.overview && <Overview>{result.overview}</Overview>}
+          {result.videos.results.length > 0 && (
+            <>
+              <VideoContainerTitle>Videos</VideoContainerTitle>
+              <ScrollContainerBox
+                vertical="false"
+                activationDistance="0.1"
+                backgroundColor="rgba(00,00,00,0.5)"
+              >
+                <VideoContainer>
+                  {result.videos.results.map((r) => (
+                    <Videos result={r} key={r.id} />
+                  ))}
+                </VideoContainer>
+              </ScrollContainerBox>
+            </>
+          )}
         </Data>
       </Content>
     </Container>
