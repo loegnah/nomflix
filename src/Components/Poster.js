@@ -2,13 +2,14 @@ import React from "react";
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
+import { noPosterSmall } from "../assets";
 
 const Container = styled.div`
   font-size: 12px;
 `;
 
 const Image = styled.div`
-  background-image: url(${props => props.bgUrl});
+  background-image: url(${(props) => props.bgUrl});
   height: 180px;
   background-size: cover;
   border-radius: 4px;
@@ -55,7 +56,7 @@ const Poster = ({ id, imageUrl, title, rating, year, isMovie = false }) => (
           bgUrl={
             imageUrl
               ? `https://image.tmdb.org/t/p/w300${imageUrl}`
-              : require("../assets/noPosterSmall.png")
+              : noPosterSmall
           }
         />
 
@@ -80,7 +81,7 @@ Poster.propTypes = {
   title: PropTypes.string.isRequired,
   rating: PropTypes.number,
   year: PropTypes.string,
-  isMovie: PropTypes.bool
+  isMovie: PropTypes.bool,
 };
 
 export default Poster;

@@ -29,7 +29,7 @@ const SearchPresenter = ({
   searchTerm,
   handleSubmit,
   error,
-  updateTerm
+  updateTerm,
 }) => (
   <Container>
     <Helmet>
@@ -48,14 +48,14 @@ const SearchPresenter = ({
       <>
         {movieResults && movieResults.length > 0 && (
           <Section title="Movie Results">
-            {movieResults.map(movie => (
+            {movieResults.map((movie) => (
               <Poster
                 key={movie.id}
                 id={movie.id}
                 imageUrl={movie.poster_path}
                 title={movie.original_title}
                 rating={movie.vote_average}
-                year={movie.release_date.substring(0, 4)}
+                year={movie.release_date && movie.release_date.substring(0, 4)}
                 isMovie={true}
               />
             ))}
@@ -63,14 +63,16 @@ const SearchPresenter = ({
         )}
         {tvResults && tvResults.length > 0 && (
           <Section title="TV Show Results">
-            {tvResults.map(show => (
+            {tvResults.map((show) => (
               <Poster
                 key={show.id}
                 id={show.id}
                 imageUrl={show.poster_path}
                 title={show.original_name}
                 rating={show.vote_average}
-                year={show.first_air_date.substring(0, 4)}
+                year={
+                  show.first_air_date && show.first_air_date.substring(0, 4)
+                }
               />
             ))}
           </Section>
@@ -94,7 +96,7 @@ SearchPresenter.propTypes = {
   searchTerm: PropTypes.string,
   loading: PropTypes.bool.isRequired,
   handleSubmit: PropTypes.func.isRequired,
-  updateTerm: PropTypes.func.isRequired
+  updateTerm: PropTypes.func.isRequired,
 };
 
 export default SearchPresenter;

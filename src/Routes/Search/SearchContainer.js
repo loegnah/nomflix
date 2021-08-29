@@ -3,17 +3,16 @@ import SearchPresenter from "./SearchPresenter";
 import { moviesApi, tvApi } from "../../api";
 
 const SearchContainer = () => {
-  const [state, setState] = useState({
+  const [results, setResults] = useState({
     movieResults: null,
     tvResults: null,
-    searchTerm: "",
-    loading: false,
-    error: null,
   });
+  const [searchTerm, setSearchTerm] = useState("");
+  const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(false);
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    const { searchTerm } = state;
     if (searchTerm !== "") {
       searchByTerm();
     }
@@ -23,14 +22,11 @@ const SearchContainer = () => {
     const {
       target: { value },
     } = event;
-    setState({
-      searchTerm: value,
-    });
+    setSearchTerm(value);
   };
 
   const searchByTerm = async () => {
-    const { searchTerm } = state;
-    setState({ loading: true });
+    setLoading(true);
     try {
       const {
         data: { results: movieResults },
@@ -38,22 +34,25 @@ const SearchContainer = () => {
       const {
         data: { results: tvResults },
       } = await tvApi.search(searchTerm);
-      setState({
+      setResults({
         movieResults,
         tvResults,
       });
     } catch {
-      setState({ error: "Can't find results." });
+      setError("Can't find results.");
     } finally {
-      setState({ loading: false });
+      setLoading(false);
     }
   };
 
   return (
     <SearchPresenter
-      {...state}
-      handleSubmit={this.handleSubmit}
-      updateTerm={this.updateTerm}
+      {...results}
+      searchTerm={searchTerm}
+      error={error}
+      loading={loading}
+      handleSubmit={handleSubmit}
+      updateTerm={updateTerm}
     />
   );
 };

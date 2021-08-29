@@ -7,9 +7,9 @@ const TVContainer = () => {
     topRated: null,
     popular: null,
     airingToday: null,
-    loading: true,
-    error: null,
   });
+  const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const getTVData = async () => {
@@ -25,17 +25,15 @@ const TVContainer = () => {
         } = await tvApi.airingToday();
         setState({ topRated, popular, airingToday });
       } catch {
-        setState({
-          error: "Can't find TV information.",
-        });
+        setError("Can't find TV information.");
       } finally {
-        setState({ loading: false });
+        setLoading(false);
       }
     };
     getTVData();
   }, []);
 
-  return <TVPresenter {...state} />;
+  return <TVPresenter {...state} error={error} loading={loading} />;
 };
 
 export default TVContainer;
