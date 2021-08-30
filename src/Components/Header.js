@@ -20,12 +20,22 @@ const List = styled.ul`
   display: flex;
 `;
 
+const SiteName = styled.li`
+  width: 100px;
+  height: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 20px;
+  font-weight: 600;
+`;
+
 const Item = styled.li`
   width: 80px;
   height: 50px;
   text-align: center;
   border-bottom: 3px solid
-    ${props => (props.current ? "#3498db" : "transparent")};
+    ${(props) => (props.current ? "#3498db" : "transparent")};
   transition: border-bottom 0.5s ease-in-out;
 `;
 
@@ -39,6 +49,9 @@ const SLink = styled(Link)`
 export default withRouter(({ location: { pathname } }) => (
   <Header>
     <List>
+      <SiteName>
+        <SLink to="/">Loegnah</SLink>
+      </SiteName>
       <Item current={pathname === "/"}>
         <SLink to="/">Movies</SLink>
       </Item>

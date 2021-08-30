@@ -116,12 +116,12 @@ const SeasonPosterContainer = styled.div`
   padding: 10px;
   gap: 20px;
 `;
-
+// prettier-ignore
 const SeasonPoster = styled.div`
   width: 120px;
   height: 100%;
-  background-image: url(https://image.tmdb.org/t/p/w200${(props) =>
-    props.bgImage});
+  
+  background-image: url(https://image.tmdb.org/t/p/w200${(props) => props.bgImage});
   background-position: center center;
   background-size: contain;
   background-repeat: no-repeat;
