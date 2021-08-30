@@ -12,7 +12,7 @@ const Container = styled.div`
   height: calc(100vh - 50px);
   width: 100%;
   position: relative;
-  padding: 50px;
+  padding: 30px 50px;
 `;
 
 const Backdrop = styled.div`
@@ -51,12 +51,14 @@ const Data = styled.div`
   margin-left: 10px;
 `;
 
-const Title = styled.h3`
+const Title = styled.div`
   font-size: 32px;
+  margin-bottom: 20px;
+  margin-left: 10px;
 `;
 
 const ItemContainer = styled.div`
-  margin: 20px 0;
+  margin: 10px 0;
 `;
 
 const Item = styled.span``;
@@ -69,6 +71,8 @@ const Overview = styled.p`
   font-size: 12px;
   opacity: 0.7;
   line-height: 1.5;
+  margin-top: 20px;
+  margin-left: 10px;
   width: 50%;
 `;
 
@@ -92,12 +96,16 @@ const VideoContainer = styled.div`
 const VideoContainerTitle = styled.div`
   margin-top: 20px;
   margin-bottom: 10px;
+  margin-left: 10px;
   font-weight: 600;
   font-size: 20px;
 `;
 
 const ScrollContainerBox = styled(ScrollContainer)`
-  background-color: rgba(00, 00, 00, 0.2);
+  &:hover {
+    background-color: rgba(00, 00, 00, 0.2);
+  }
+  transition: 0.5s;
 `;
 
 const DetailPresenter = ({ result, loading, error }) =>
@@ -186,7 +194,28 @@ const DetailPresenter = ({ result, loading, error }) =>
               </>
             )}
           </ItemContainer>
-          <ItemContainer></ItemContainer>
+          <ItemContainer>
+            {result.production_countries &&
+              result.production_countries.length > 0 && (
+                <>
+                  <Divider>•</Divider>
+                  <Item>
+                    {result.production_countries.map((country, index) =>
+                      index === result.production_countries.length - 1
+                        ? country.name
+                        : `${country.name} / `
+                    )}
+                  </Item>
+                </>
+              )}
+            {result.production_companies &&
+              result.production_companies.length > 0 && (
+                <>
+                  <Divider>•</Divider>
+                  <Item>{result.production_companies[0].name}</Item>
+                </>
+              )}
+          </ItemContainer>
           {result.overview && <Overview>{result.overview}</Overview>}
           {result.videos.results.length > 0 && (
             <>
