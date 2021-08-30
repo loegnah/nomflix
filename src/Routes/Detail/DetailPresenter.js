@@ -113,20 +113,29 @@ const SeasonPosterContainer = styled.div`
   display: flex;
   height: 170px;
   width: 100%;
-  padding: 10px;
+  padding: 0 10px;
   gap: 20px;
+`;
+
+const Season = styled.div`
+  display: flex;
+  flex-direction: column;
 `;
 // prettier-ignore
 const SeasonPoster = styled.div`
-  width: 120px;
-  height: 100%;
-  
-  background-image: url(https://image.tmdb.org/t/p/w200${(props) => props.bgImage});
+  width: 100px;
+  height: 150px;
+  background-image: url(${(props) => props.bgImage});
   background-position: center center;
   background-size: contain;
   background-repeat: no-repeat;
   border-radius: 5px;
   flex-shrink: 0;
+`;
+
+const SeasonName = styled.div`
+  margin-top: 3px;
+  text-align: center;
 `;
 
 const DetailPresenter = ({ result, seasonData, loading, error }) =>
@@ -263,12 +272,21 @@ const DetailPresenter = ({ result, seasonData, loading, error }) =>
                 backgroundColor="rgba(00,00,00,0.5)"
               >
                 <SeasonPosterContainer>
-                  {seasonData.map((s) => (
-                    <SeasonPoster
-                      bgImage={s.data.poster_path}
-                      key={s.data._id}
-                    />
-                  ))}
+                  {seasonData
+                    .filter((s) => s.data.name)
+                    .map((s) => (
+                      <Season>
+                        <SeasonPoster
+                          bgImage={
+                            s.data.poster_path
+                              ? `https://image.tmdb.org/t/p/w200${s.data.poster_path}`
+                              : noPosterSmall
+                          }
+                          key={s.data._id}
+                        ></SeasonPoster>
+                        <SeasonName>{s.data.name}</SeasonName>
+                      </Season>
+                    ))}
                 </SeasonPosterContainer>
               </ScrollContainerBox>
             </>

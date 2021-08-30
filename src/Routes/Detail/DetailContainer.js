@@ -37,6 +37,7 @@ const DetailContainer = (props) => {
                 )
               )
             );
+            console.log(resultData);
           }
         }
       } catch {
