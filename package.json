@@ -30,7 +30,5 @@
     "not ie <= 11",
     "not op_mini all"
   ],
-  "devDependencies": {
-    "@babel/helper-builder-react-jsx": "^7.14.5"
-  }
+  "devDependencies": {}
 }

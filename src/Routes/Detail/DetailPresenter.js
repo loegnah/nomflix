@@ -145,6 +145,10 @@ const DetailPresenter = ({ result, seasonData, loading, error }) =>
     <>
       <Helmet>
         <title>Loading | Nomflix</title>
+        <meta
+          http-equiv="Content-Security-Policy"
+          content="upgrade-insecure-requests"
+        ></meta>
       </Helmet>
       <Loader />
     </>
