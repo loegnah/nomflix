@@ -31,6 +31,6 @@
     "not op_mini all"
   ],
   "devDependencies": {
-    "lodash": "^4.17.21"
+    "@babel/helper-builder-react-jsx": "^7.14.5"
   }
 }
