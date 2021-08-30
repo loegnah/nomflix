@@ -73,6 +73,7 @@ const Overview = styled.p`
   line-height: 1.5;
   margin-top: 20px;
   margin-left: 10px;
+  margin-bottom: 10px;
   width: 50%;
 `;
 
@@ -93,9 +94,9 @@ const VideoContainer = styled.div`
   padding: 10px;
 `;
 
-const VideoContainerTitle = styled.div`
-  margin-top: 20px;
-  margin-bottom: 10px;
+const ContainerTitle = styled.div`
+  margin-top: 5px;
+  margin-bottom: 5px;
   margin-left: 10px;
   font-weight: 600;
   font-size: 20px;
@@ -108,7 +109,27 @@ const ScrollContainerBox = styled(ScrollContainer)`
   transition: 0.5s;
 `;
 
-const DetailPresenter = ({ result, loading, error }) =>
+const SeasonPosterContainer = styled.div`
+  display: flex;
+  height: 170px;
+  width: 100%;
+  padding: 10px;
+  gap: 20px;
+`;
+
+const SeasonPoster = styled.div`
+  width: 120px;
+  height: 100%;
+  background-image: url(https://image.tmdb.org/t/p/w200${(props) =>
+    props.bgImage});
+  background-position: center center;
+  background-size: contain;
+  background-repeat: no-repeat;
+  border-radius: 5px;
+  flex-shrink: 0;
+`;
+
+const DetailPresenter = ({ result, seasonData, loading, error }) =>
   error ? (
     { error }
   ) : loading ? (
@@ -219,7 +240,7 @@ const DetailPresenter = ({ result, loading, error }) =>
           {result.overview && <Overview>{result.overview}</Overview>}
           {result.videos.results.length > 0 && (
             <>
-              <VideoContainerTitle>Videos</VideoContainerTitle>
+              <ContainerTitle>Videos</ContainerTitle>
               <ScrollContainerBox
                 vertical="false"
                 activationDistance="0.1"
@@ -233,6 +254,25 @@ const DetailPresenter = ({ result, loading, error }) =>
               </ScrollContainerBox>
             </>
           )}
+          {seasonData.length > 0 && (
+            <>
+              <ContainerTitle>Seasons</ContainerTitle>
+              <ScrollContainerBox
+                vertical="false"
+                activationDistance="0.1"
+                backgroundColor="rgba(00,00,00,0.5)"
+              >
+                <SeasonPosterContainer>
+                  {seasonData.map((s) => (
+                    <SeasonPoster
+                      bgImage={s.data.poster_path}
+                      key={s.data._id}
+                    />
+                  ))}
+                </SeasonPosterContainer>
+              </ScrollContainerBox>
+            </>
+          )}
         </Data>
       </Content>
     </Container>
@@ -240,6 +280,7 @@ const DetailPresenter = ({ result, loading, error }) =>
 
 DetailPresenter.propTypes = {
   result: PropTypes.object,
+  seasonData: PropTypes.array,
   loading: PropTypes.bool.isRequired,
   error: PropTypes.string,
 };

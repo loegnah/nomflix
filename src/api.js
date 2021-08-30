@@ -43,3 +43,7 @@ export const tvApi = {
       },
     }),
 };
+
+export const tvSeasonApi = {
+  getDetail: (tvId, seasonNum) => api.get(`tv/${tvId}/season/${seasonNum}`),
+};
