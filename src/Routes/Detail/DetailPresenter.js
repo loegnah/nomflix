@@ -144,7 +144,7 @@ const DetailPresenter = ({ result, seasonData, loading, error }) =>
   ) : loading ? (
     <>
       <Helmet>
-        <title>Loading | Nomflix</title>
+        <title>Loading | Loegnah</title>
         <meta
           http-equiv="Content-Security-Policy"
           content="upgrade-insecure-requests"
